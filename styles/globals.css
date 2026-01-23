@@ -1,0 +1,5 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{ --accent-bg: #EAEFFE; --primary: #9787F3; --dark: #2D274B; }
+body { @apply bg-[var(--accent-bg)] text-[var(--dark)]; }

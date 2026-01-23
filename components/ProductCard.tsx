@@ -1,0 +1,3 @@
+import Link from 'next/link';
+type Props = { id: string; title: string; price: number; image?: string; };
+export default function ProductCard({ id, title, price, image }: Props) { return ( <Link href={`/product/${id}`} className="block bg-white rounded-lg overflow-hidden hover:shadow-lg"> <div className="h-56 flex items-center justify-center bg-gray-50"> {image ? <img src={image} alt={title} className="object-cover h-full w-full" /> : <div className="text-gray-400">No image</div>} </div> <div className="p-4"> <h3 className="text-sm font-semibold" style={{ color: '#2D274B' }}>{title}</h3> <div className="mt-2 text-lg font-semibold" style={{ color: '#9787F3' }}>{(price / 100).toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</div> </div> </Link> ); }

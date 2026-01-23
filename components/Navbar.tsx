@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Navbar() { return ( <nav className="bg-white shadow-sm"> <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"> <Link href="/" className="text-2xl font-bold" style={{ color: '#2D274B' }}> HexThrift </Link> <div className="space-x-4"> <Link href="/cart" className="text-sm">Cart</Link> <Link href="/admin" className="text-sm">Admin</Link> </div> </div> </nav> ); }

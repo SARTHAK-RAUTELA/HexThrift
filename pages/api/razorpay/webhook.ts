@@ -1,0 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+import crypto from 'crypto';
+import { supabase } from '../../../lib/supabase';
+export default async function handler(req: NextApiRequest, res: NextApiResponse) { const secret = process.env.RAZORPAY_WEBHOOK_SECRET!; const body = JSON.stringify(req.body); const expectedSignature = crypto.createHmac('sha256', secret).update(body).digest('hex'); const signature = req.headers['x-razorpay-signature'] as string || ''; if (signature !== expectedSignature) { return res.status(401).send('invalid signature'); } const event = req.body; if (event.event === 'payment.captured') { const { order_id, id: payment_id } = event.payload.payment.entity; await supabase.from('orders').update({ payment_status: 'paid', razorpay_payment_id: payment_id, updated_at: new Date() }).eq('razorpay_order_id', order_id); } res.status(200).send('ok'); }
