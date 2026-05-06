@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chi's Thrift Store — Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Paytone+One&family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --teal:#0E7B8C;
+    --teal-dk:#0a5a68;
+    --yellow:#F5C518;
+    --yellow-dk:#caa00f;
+    --cream:#F6F1E4;
+    --cream-2:#EFE8D4;
+    --ink:#111;
+    --ink-soft:#1F1B16;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+
+  /* ===== Announcement bar ===== */
+  .ann{
+    background:var(--ink);color:#fff;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
+    padding:10px 24px;display:flex;justify-content:center;gap:32px;align-items:center;
+    overflow:hidden;
+  }
+  .ann span{display:inline-flex;align-items:center;gap:8px}
+  .ann b{color:var(--yellow);font-weight:700;letter-spacing:0.1em}
+  .ann .dot{width:4px;height:4px;border-radius:50%;background:#666}
+
+  /* ===== Header ===== */
+  .header{
+    background:var(--cream);
+    border-bottom:1px solid rgba(0,0,0,0.06);
+    padding:18px 48px;
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px;
+    position:sticky;top:0;z-index:50;
+  }
+  .nav-l, .nav-r{display:flex;gap:28px;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase}
+  .nav-r{justify-content:flex-end;align-items:center}
+  .nav-l a:hover, .nav-r a:hover{color:var(--teal)}
+  .logo{display:flex;align-items:center;justify-content:center;gap:0;font-family:'Paytone One',sans-serif;font-size:26px;color:var(--teal);line-height:1;position:relative}
+  .logo .tick{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--yellow);margin-right:8px}
+  .icon{width:20px;height:20px;stroke:currentColor;stroke-width:1.6;fill:none}
+  .cart{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;padding:8px 12px;border-radius:999px;font-size:11px;letter-spacing:0.12em}
+  .cart .count{background:var(--yellow);color:var(--ink);font-weight:700;padding:1px 6px;border-radius:999px}
+
+  /* ===== Hero ===== */
+  .hero{
+    padding:48px 48px 56px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:end;
+    position:relative;
+  }
+  .hero h1{
+    font-family:'Paytone One',sans-serif;
+    font-size:clamp(64px,9vw,148px);
+    line-height:0.86;letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .hero h1 em{font-style:normal;color:var(--teal);position:relative;display:inline-block}
+  .hero h1 em::after{
+    content:"";position:absolute;left:-2%;right:-2%;bottom:6%;height:18%;background:var(--yellow);z-index:-1;border-radius:6px;
+  }
+  .hero .meta{margin-top:24px;display:flex;align-items:center;gap:20px;font-size:13px;color:#5b524a}
+  .hero .meta strong{color:var(--ink)}
+  .hero .pill{
+    display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
+    background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:999px;
+    font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;
+  }
+  .hero .pill .d{width:6px;height:6px;border-radius:50%;background:var(--teal)}
+
+  .hero-right{position:relative;height:520px}
+  .photo{
+    position:absolute;border-radius:16px;overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.25);
+  }
+  .photo .ph-label{
+    position:absolute;left:14px;bottom:14px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:0.2em;color:#fff;
+    background:rgba(0,0,0,0.45);padding:4px 10px;border-radius:999px;
+  }
+  .ph1{inset:0 40px 60px 0;background:linear-gradient(160deg,#d97a5a 0%, #8a3920 100%)}
+  .ph2{inset:80px 0 0 50%;width:48%;background:linear-gradient(160deg,var(--teal) 0%, #07424d 100%)}
+  .ph1::after, .ph2::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.25), transparent 60%),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 10px, transparent 10px 20px);
+  }
+  .ph-figure{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:62%;height:88%}
+  .ph-figure svg{width:100%;height:100%}
+
+  .sticker{
+    position:absolute;top:-18px;right:-12px;width:120px;height:120px;
+    background:var(--yellow);color:var(--ink);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:'Paytone One',sans-serif;font-size:14px;line-height:1.1;
+    transform:rotate(-12deg);box-shadow:0 10px 24px rgba(0,0,0,0.15);
+    z-index:5;
+  }
+  .sticker small{display:block;font-family:'Inter';font-weight:800;font-size:10px;letter-spacing:0.15em;margin-top:4px}
+
+  /* marquee */
+  .marquee{
+    background:var(--yellow);color:var(--ink);padding:14px 0;overflow:hidden;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .marquee-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 30s linear infinite;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.08em}
+  .marquee-track span{display:inline-flex;align-items:center;gap:48px}
+  .marquee-track i{font-style:normal;color:var(--teal)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ===== Section heading ===== */
+  .section{padding:80px 48px}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+  .sec-head h2{
+    font-family:'Paytone One',sans-serif;font-size:clamp(38px,5vw,68px);line-height:0.95;letter-spacing:-0.01em;
+  }
+  .sec-head .sub{font-size:14px;color:#5b524a;max-width:380px;line-height:1.55}
+  .sec-link{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid var(--ink);padding-bottom:4px}
+  .sec-link:hover{color:var(--teal);border-color:var(--teal)}
+
+  /* ===== Category grid ===== */
+  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cat{
+    position:relative;border-radius:18px;overflow:hidden;height:520px;
+    background:#222;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:24px;
+  }
+  .cat::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 30%, rgba(0,0,0,0.65) 100%);z-index:1;
+  }
+  .cat .ph-figure{z-index:0}
+  .cat .info{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+  .cat .name{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:0.05em}
+  .cat .count{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.85}
+  .cat .go{
+    width:44px;height:44px;border-radius:50%;background:var(--yellow);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+    transition:transform .2s ease;
+  }
+  .cat:hover .go{transform:translate(2px,-2px)}
+  .cat .badge{position:absolute;top:18px;left:18px;z-index:2;background:#fff;color:var(--ink);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:5px 10px;border-radius:999px;font-weight:600}
+
+  .c1{background:linear-gradient(160deg,#3a3a3a 0%,#0d0d0d 100%)}
+  .c2{background:linear-gradient(160deg,var(--teal) 0%,#063a44 100%)}
+  .c3{background:linear-gradient(160deg,#d97a5a 0%,#5b1f10 100%)}
+
+  /* ===== Product row ===== */
+  .products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .prod{background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,0.06);transition:transform .2s}
+  .prod:hover{transform:translateY(-3px)}
+  .prod-img{height:280px;background:var(--cream-2);position:relative;display:flex;align-items:center;justify-content:center}
+  .prod-img .tag{position:absolute;top:12px;left:12px;background:var(--ink);color:#fff;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:5px 9px;border-radius:4px;font-weight:700}
+  .prod-img .tag.sale{background:var(--yellow);color:var(--ink)}
+  .prod-img .heart{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.06)}
+  .prod-info{padding:14px 16px 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .prod-info .name{font-size:14px;font-weight:600;line-height:1.3}
+  .prod-info .cat{font-size:11px;color:#888;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px}
+  .prod-info .price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ink);line-height:1}
+  .prod-info .price .old{display:block;font-family:'Inter';font-size:11px;color:#aaa;text-decoration:line-through;font-weight:500;margin-top:3px}
+
+  /* ===== Promo strip ===== */
+  .promo{
+    margin:0 48px;background:var(--teal);color:#fff;border-radius:24px;padding:48px;
+    display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;position:relative;overflow:hidden;
+  }
+  .promo::before{
+    content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:var(--yellow);opacity:0.15;
+  }
+  .promo h3{font-family:'Paytone One',sans-serif;font-size:54px;line-height:0.95;letter-spacing:-0.01em}
+  .promo h3 em{font-style:normal;color:var(--yellow)}
+  .promo p{margin-top:14px;font-size:15px;opacity:0.85;max-width:440px;line-height:1.6}
+  .promo .btns{margin-top:24px;display:flex;gap:12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;border:2px solid transparent;cursor:pointer}
+  .btn-yellow{background:var(--yellow);color:var(--ink)}
+  .btn-yellow:hover{background:#fff}
+  .btn-ghost{border-color:rgba(255,255,255,0.4);color:#fff}
+  .btn-ghost:hover{background:#fff;color:var(--teal);border-color:#fff}
+  .promo-art{position:relative;height:240px}
+  .promo-art .rack{position:absolute;inset:0;background:rgba(255,255,255,0.08);border-radius:18px;display:flex;align-items:flex-end;justify-content:center;padding:18px;gap:6px}
+  .promo-art .rack .it{width:36px;height:80%;border-radius:6px 6px 14px 14px}
+  .promo-art .rack .it:nth-child(1){background:#d97a5a;height:60%}
+  .promo-art .rack .it:nth-child(2){background:#fff;height:75%}
+  .promo-art .rack .it:nth-child(3){background:var(--yellow);height:55%}
+  .promo-art .rack .it:nth-child(4){background:#1a1a1a;height:80%}
+  .promo-art .rack .it:nth-child(5){background:#7B9AAB;height:65%}
+  .promo-art .rack .it:nth-child(6){background:#cf3b2c;height:72%}
+  .promo-art .rack .it:nth-child(7){background:#e9d2a8;height:58%}
+  .promo-art .bar{position:absolute;left:0;right:0;top:30px;height:6px;background:#999;border-radius:3px}
+
+  /* ===== Editorial split ===== */
+  .editorial{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 48px 80px}
+  .ed-card{position:relative;border-radius:18px;overflow:hidden;height:380px;color:#fff;padding:28px;display:flex;flex-direction:column;justify-content:flex-end}
+  .ed-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%, rgba(0,0,0,0.7));z-index:1}
+  .ed-card > *{position:relative;z-index:2}
+  .ed-1{background:linear-gradient(135deg,#1a1a1a 0%, #3a2820 100%)}
+  .ed-2{background:linear-gradient(135deg,var(--teal) 0%, #051f25 100%)}
+  .ed-card .kicker{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;opacity:0.8;font-weight:600}
+  .ed-card h4{font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;letter-spacing:0.02em;margin-top:8px;max-width:380px}
+  .ed-card .arrow{margin-top:20px;display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600}
+
+  /* ===== Footer ===== */
+  .footer{background:var(--ink);color:#bbb;padding:64px 48px 32px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px}
+  .foot-grid .lg{font-family:'Paytone One',sans-serif;font-size:36px;color:var(--yellow);line-height:1}
+  .foot-grid p{margin-top:14px;font-size:13px;line-height:1.6;max-width:300px}
+  .foot-grid h5{color:#fff;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .foot-grid ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13px}
+  .foot-grid ul a:hover{color:var(--yellow)}
+  .foot-bot{margin-top:48px;padding-top:24px;border-top:1px solid #2a2a2a;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:12px}
+
+  /* placeholder figure */
+  .ph-figure{position:absolute;inset:0;z-index:0}
+  .ph-figure svg{width:100%;height:100%;object-fit:cover}
+
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr}
+    .cats{grid-template-columns:1fr 1fr}
+    .products{grid-template-columns:1fr 1fr}
+    .editorial{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .promo{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- Announcement -->
+<div class="ann">
+  <span>♻️ Sustainable thrift, hand-picked weekly</span>
+  <span class="dot"></span>
+  <span>Free shipping on orders ₹2,499+ &nbsp; · &nbsp; code <b>CHIFRESH</b></span>
+  <span class="dot"></span>
+  <span>Now shipping pan-India 🚚</span>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <nav class="nav-l">
+    <a href="#">Shop</a>
+    <a href="black.html">Collections</a>
+    <a href="#">Lookbook</a>
+    <a href="#">Journal</a>
+  </nav>
+  <a href="index.html" class="logo"><span class="tick"></span>CHI'S</a>
+  <nav class="nav-r">
+    <a href="#">Sell to us</a>
+    <a href="#">Account</a>
+    <a href="#" class="cart">Bag <span class="count">3</span></a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div>
+    <span class="pill"><span class="d"></span>Drop 12 · Spring '26</span>
+    <h1>SECOND-HAND<br/>NEVER LOOKED<br/><em>SO FIRST</em>RATE.</h1>
+    <p style="max-width:520px;margin-top:24px;color:#5b524a;line-height:1.6;font-size:16px">Curated thrift from across India. We sort, steam, and ship — you wear it like it was made for you. Every piece keeps something out of a landfill.</p>
+    <div class="meta">
+      <a href="#" class="btn btn-yellow" style="background:var(--ink);color:#fff">Shop the drop →</a>
+      <span><strong>4,200+</strong> pieces saved this season</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="sticker">FRESH<br/>WEEKLY<small>NEW IN MON 9AM</small></div>
+    <div class="photo ph1">
+      <div class="ph-figure">
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice">
+          <defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5d4be"/><stop offset="1" stop-color="#3a1a0a"/></linearGradient></defs>
+          <ellipse cx="200" cy="120" rx="55" ry="62" fill="#e8c5a8"/>
+          <path d="M120 200 Q200 170 280 200 L300 500 L100 500 Z" fill="#0E7B8C"/>
+          <path d="M120 200 Q200 170 280 200 L290 280 Q200 260 110 280 Z" fill="#F5C518" opacity="0.85"/>
+          <rect x="190" y="220" width="20" height="60" fill="#fff" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="ph-label">EDITORIAL · 01</div>
+    </div>
+    <div class="photo ph2">
+      <div class="ph-figure">
+        <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMax slice">
+          <ellipse cx="150" cy="100" rx="50" ry="55" fill="#3a1a10"/>
+          <path d="M80 170 Q150 145 220 170 L240 400 L60 400 Z" fill="#f0e3c8"/>
+          <path d="M100 200 L200 200 L195 300 L105 300 Z" fill="#1a1a1a"/>
+        </svg>
+      </div>
+      <div class="ph-label">DENIM · 02</div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>WORN ONCE <i>·</i> LOVED TWICE <i>·</i> CURATED THRICE <i>·</i> WORN ONCE <i>·</i> LOVED TWICE <i>·</i> CURATED THRICE <i>·</i> WORN ONCE <i>·</i> LOVED TWICE <i>·</i> CURATED THRICE <i>·</i></span>
+    <span>WORN ONCE <i>·</i> LOVED TWICE <i>·</i> CURATED THRICE <i>·</i> WORN ONCE <i>·</i> LOVED TWICE <i>·</i> CURATED THRICE <i>·</i> WORN ONCE <i>·</i> LOVED TWICE <i>·</i> CURATED THRICE <i>·</i></span>
+  </div>
+</div>
+
+<!-- Categories -->
+<section class="section">
+  <div class="sec-head">
+    <div>
+      <span class="pill"><span class="d"></span>Shop by mood</span>
+      <h2 style="margin-top:12px">PICK YOUR<br/>UNIVERSE.</h2>
+    </div>
+    <div class="sub">Three worlds, one closet. Every category has its own vibe — and its own collection page tuned to match.</div>
+    <a href="#" class="sec-link">All categories →</a>
+  </div>
+
+  <div class="cats">
+    <a href="black.html" class="cat c1">
+      <div class="ph-figure">
+        <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMax slice">
+          <ellipse cx="200" cy="160" rx="70" ry="80" fill="#2a2a2a"/>
+          <path d="M100 260 Q200 220 300 260 L320 600 L80 600 Z" fill="#0a0a0a"/>
+          <path d="M150 280 L250 280 L240 380 L160 380 Z" fill="#1a1a1a" stroke="#333"/>
+        </svg>
+      </div>
+      <div class="badge">Streetwear</div>
+      <div class="info">
+        <div>
+          <div class="name">THE BLACK COLLECTION</div>
+          <div class="count">142 pieces</div>
+        </div>
+        <div class="go">→</div>
+      </div>
+    </a>
+
+    <a href="winter.html" class="cat c2">
+      <div class="ph-figure">
+        <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMax slice">
+          <ellipse cx="200" cy="180" rx="80" ry="90" fill="#a8c4d4"/>
+          <path d="M70 280 Q200 240 330 280 L350 600 L50 600 Z" fill="#e8e4d4"/>
+          <circle cx="200" cy="180" r="55" fill="#7B9AAB"/>
+        </svg>
+      </div>
+      <div class="badge">New ❄️</div>
+      <div class="info">
+        <div>
+          <div class="name">WINTER ARMOUR</div>
+          <div class="count">68 pieces</div>
+        </div>
+        <div class="go">→</div>
+      </div>
+    </a>
+
+    <a href="retro.html" class="cat c3">
+      <div class="ph-figure">
+        <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMax slice">
+          <ellipse cx="200" cy="150" rx="65" ry="72" fill="#d4856a"/>
+          <path d="M90 240 Q200 210 310 240 L320 600 L80 600 Z" fill="#F5C518"/>
+          <path d="M120 260 L280 260 L275 360 L125 360 Z" fill="#0E7B8C"/>
+          <circle cx="200" cy="310" r="20" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="badge">Vintage</div>
+      <div class="info">
+        <div>
+          <div class="name">RETRO &amp; FUNK</div>
+          <div class="count">96 pieces</div>
+        </div>
+        <div class="go">→</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Promo -->
+<section class="promo">
+  <div>
+    <h3>SELL US YOUR<br/>OLD <em>TREASURES.</em></h3>
+    <p>Got pieces you don't wear anymore? Mail them to us with our pre-paid label. We pay you in cash or 1.5× store credit. India only.</p>
+    <div class="btns">
+      <a href="#" class="btn btn-yellow">Get a label</a>
+      <a href="#" class="btn btn-ghost">How it works</a>
+    </div>
+  </div>
+  <div class="promo-art">
+    <div class="bar"></div>
+    <div class="rack">
+      <div class="it"></div><div class="it"></div><div class="it"></div><div class="it"></div><div class="it"></div><div class="it"></div><div class="it"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="section">
+  <div class="sec-head">
+    <div>
+      <span class="pill"><span class="d"></span>Just dropped</span>
+      <h2 style="margin-top:12px">THIS WEEK'S<br/>FRESH FINDS.</h2>
+    </div>
+    <div class="sub">42 new pieces sorted, steamed, photographed and listed every Monday at 9am IST. Once they're gone, they're gone.</div>
+    <a href="#" class="sec-link">View all 142 →</a>
+  </div>
+
+  <div class="products">
+    <a class="prod" href="product.html">
+      <div class="prod-img" style="background:linear-gradient(180deg,#e9d2a8,#d4856a)">
+        <span class="tag sale">−40%</span>
+        <span class="heart">♡</span>
+        <svg viewBox="0 0 200 280" width="120" height="160"><rect x="60" y="40" width="80" height="120" fill="#0E7B8C"/><rect x="40" y="60" width="20" height="80" fill="#0E7B8C"/><rect x="140" y="60" width="20" height="80" fill="#0E7B8C"/><rect x="80" y="160" width="40" height="100" fill="#1a1a1a"/></svg>
+      </div>
+      <div class="prod-info">
+        <div>
+          <div class="name">Vintage Wrangler Denim Jacket</div>
+          <div class="cat">Outerwear · Size M</div>
+        </div>
+        <div class="price">₹1,499<span class="old">₹2,499</span></div>
+      </div>
+    </a>
+    <a class="prod" href="product.html">
+      <div class="prod-img" style="background:linear-gradient(180deg,#f0e3c8,#c9b89a)">
+        <span class="tag">NEW</span>
+        <span class="heart">♡</span>
+        <svg viewBox="0 0 200 280" width="120" height="160"><rect x="50" y="50" width="100" height="140" fill="#cf3b2c" rx="4"/><circle cx="100" cy="80" r="12" fill="#fff"/></svg>
+      </div>
+      <div class="prod-info">
+        <div>
+          <div class="name">Crimson Boxy Knit Sweater</div>
+          <div class="cat">Knitwear · Size L</div>
+        </div>
+        <div class="price">₹899</div>
+      </div>
+    </a>
+    <a class="prod" href="product.html">
+      <div class="prod-img" style="background:linear-gradient(180deg,#bcd4dc,#7e9ba8)">
+        <span class="tag">VINTAGE '90s</span>
+        <span class="heart">♡</span>
+        <svg viewBox="0 0 200 280" width="120" height="160"><rect x="40" y="60" width="120" height="100" fill="#1a1a1a" rx="6"/><rect x="60" y="80" width="80" height="40" fill="#F5C518"/></svg>
+      </div>
+      <div class="prod-info">
+        <div>
+          <div class="name">Champion Hoodie — Black</div>
+          <div class="cat">Hoodies · Size XL</div>
+        </div>
+        <div class="price">₹1,299</div>
+      </div>
+    </a>
+    <a class="prod" href="product.html">
+      <div class="prod-img" style="background:linear-gradient(180deg,#f5d4be,#a85a3a)">
+        <span class="tag sale">−25%</span>
+        <span class="heart">♡</span>
+        <svg viewBox="0 0 200 280" width="120" height="160"><rect x="65" y="50" width="70" height="160" fill="#3a1a10" rx="4"/><rect x="55" y="60" width="20" height="80" fill="#3a1a10"/><rect x="125" y="60" width="20" height="80" fill="#3a1a10"/></svg>
+      </div>
+      <div class="prod-info">
+        <div>
+          <div class="name">Brown Corduroy Overshirt</div>
+          <div class="cat">Shirts · Size M</div>
+        </div>
+        <div class="price">₹999<span class="old">₹1,299</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Editorial -->
+<section class="editorial">
+  <a href="#" class="ed-card ed-1">
+    <div class="ph-figure">
+      <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice"><rect width="800" height="400" fill="#1a1a1a"/><circle cx="600" cy="180" r="120" fill="#3a2820" opacity="0.6"/></svg>
+    </div>
+    <span class="kicker">Journal · Sustainability</span>
+    <h4>WHY ONE MAN'S CAST-OFF IS ANOTHER'S DAILY DRIVER.</h4>
+    <span class="arrow">Read the piece →</span>
+  </a>
+  <a href="#" class="ed-card ed-2">
+    <div class="ph-figure">
+      <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice"><rect width="800" height="400" fill="#0E7B8C"/><circle cx="200" cy="200" r="140" fill="#063a44" opacity="0.7"/></svg>
+    </div>
+    <span class="kicker">Lookbook · Spring '26</span>
+    <h4>THE UNIFORM — STYLED BY KOLKATA'S YOUNGEST CURATOR.</h4>
+    <span class="arrow">See the lookbook →</span>
+  </a>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="foot-grid">
+    <div>
+      <div class="lg">CHI'S<sup style="font-size:18px">★</sup></div>
+      <p>Chi's Thrift Store. Sustainable, sorted, second-hand. Based in Bangalore — shipping pan-India via Razorpay-secured checkout.</p>
+    </div>
+    <div>
+      <h5>Shop</h5>
+      <ul><li><a href="#">New in</a></li><li><a href="#">Black Collection</a></li><li><a href="#">Winter</a></li><li><a href="#">Retro</a></li><li><a href="#">Sale</a></li></ul>
+    </div>
+    <div>
+      <h5>Help</h5>
+      <ul><li><a href="#">Sizing</a></li><li><a href="#">Returns</a></li><li><a href="#">Shipping</a></li><li><a href="#">FAQ</a></li></ul>
+    </div>
+    <div>
+      <h5>Brand</h5>
+      <ul><li><a href="#">Our story</a></li><li><a href="#">Sell to us</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+    <div>
+      <h5>Newsletter</h5>
+      <p style="font-size:12px">Drops, journal, occasional 10% off codes.</p>
+      <div style="margin-top:10px;display:flex;background:#1f1f1f;border-radius:999px;padding:4px"><input style="background:transparent;border:0;outline:0;color:#fff;padding:8px 12px;flex:1;font-family:inherit;font-size:12px" placeholder="you@email.com"/><button class="btn btn-yellow" style="padding:8px 14px;font-size:11px">Join</button></div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div>© 2026 Chi's Thrift Store · ♻️ Carbon-neutral shipping</div>
+    <div>INR · Razorpay · UPI · Cards · Net Banking</div>
+  </div>
+</footer>
+
+</body>
+</html>

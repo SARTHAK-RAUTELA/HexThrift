@@ -1,5 +1,303 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{ --accent-bg: #EAEFFE; --primary: #9787F3; --dark: #2D274B; }
-body { @apply bg-[var(--accent-bg)] text-[var(--dark)]; }
+
+/* ── Brand tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --teal:     #0E7B8C;
+  --teal-dk:  #0a5a68;
+  --yellow:   #F5C518;
+  --cream:    #F6F1E4;
+  --cream-2:  #EFE8D4;
+  --ink:      #111111;
+  --orange:   #E8593C;
+  --orange-d: #cf3b2c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Sticker float */
+@keyframes floatSticker {
+  0%, 100% { transform: translateY(0)    rotate(-12deg); }
+  50%       { transform: translateY(-12px) rotate(-12deg); }
+}
+
+/* Pulsing glow for primary CTAs */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(14,123,140,0.45); }
+  50%       { box-shadow: 0 0 0 14px rgba(14,123,140,0); }
+}
+@keyframes pulseGlowOrange {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(232,89,60,0.45); }
+  50%       { box-shadow: 0 0 0 14px rgba(232,89,60,0); }
+}
+
+/* Cart badge bounce */
+@keyframes badgeBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.55); }
+  60%  { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+/* Toast slide-in / out */
+@keyframes toastIn {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(110%); }
+}
+
+/* Heart pop */
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.45); }
+  70%  { transform: scale(0.88); }
+  100% { transform: scale(1); }
+}
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════════════════════════════════════════ */
+.marquee-track {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ENTRANCE ANIMATION UTILITIES
+═══════════════════════════════════════════════════════════════════════════ */
+.anim-fade-up  { animation: fadeUp  0.65s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-fade-in  { animation: fadeIn  0.55s ease both; }
+.anim-scale-in { animation: scaleIn 0.5s  cubic-bezier(0.22,1,0.36,1) both; }
+.anim-float    { animation: floatSticker 3.6s ease-in-out infinite; }
+
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.18s; }
+.delay-3 { animation-delay: 0.32s; }
+.delay-4 { animation-delay: 0.48s; }
+.delay-5 { animation-delay: 0.64s; }
+.delay-6 { animation-delay: 0.80s; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+              transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+              transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-scale.revealed { opacity: 1; transform: scale(1); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BUTTON HOVER LIFTS
+═══════════════════════════════════════════════════════════════════════════ */
+.btn-lift {
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+  will-change: transform;
+}
+.btn-lift:hover  { transform: translateY(-3px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.22) !important; }
+.btn-lift:active { transform: translateY(-1px) !important; }
+
+.btn-teal {
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+  will-change: transform;
+}
+.btn-teal:hover  { transform: translateY(-3px) !important; box-shadow: 0 12px 32px rgba(14,123,140,0.5) !important; }
+.btn-teal:active { transform: translateY(-1px) !important; }
+
+.btn-orange {
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+  will-change: transform;
+}
+.btn-orange:hover  { transform: translateY(-3px) !important; box-shadow: 0 12px 32px rgba(232,89,60,0.5) !important; }
+.btn-orange:active { transform: translateY(-1px) !important; }
+
+/* Pulsing CTA */
+.cta-pulse      { animation: pulseGlow       2.8s ease-in-out infinite; }
+.cta-pulse-orng { animation: pulseGlowOrange 2.8s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRODUCT CARD
+═══════════════════════════════════════════════════════════════════════════ */
+.prod-card {
+  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.28s cubic-bezier(0.22,1,0.36,1) !important;
+  will-change: transform;
+}
+.prod-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 24px 52px rgba(0,0,0,0.14) !important;
+}
+
+/* Image zoom inside card */
+.card-img { overflow: hidden; }
+.card-img img {
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform;
+}
+.prod-card:hover .card-img img { transform: scale(1.08); }
+
+/* Heart button */
+.heart-btn {
+  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease !important;
+  cursor: pointer;
+  user-select: none;
+}
+.heart-btn:hover               { transform: scale(1.18) !important; }
+.heart-btn.liked               { color: #E8593C !important; background: #fff0ee !important; }
+.heart-btn.liked               { animation: heartPop 0.35s ease; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CATEGORY CARD
+═══════════════════════════════════════════════════════════════════════════ */
+.cat-card {
+  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.28s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform;
+}
+.cat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 56px rgba(0,0,0,0.28);
+}
+.cat-arrow {
+  transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease !important;
+}
+.cat-card:hover .cat-arrow {
+  transform: translate(5px,-5px) !important;
+  background: #111 !important;
+  color: #F5C518 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAV LINK UNDERLINE ANIMATION
+═══════════════════════════════════════════════════════════════════════════ */
+.nav-link-u {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.nav-link-u::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 2px;
+  background: var(--teal);
+  transition: width 0.28s cubic-bezier(0.22,1,0.36,1);
+  border-radius: 2px;
+}
+.nav-link-u:hover::after { width: 100%; }
+.nav-link-u:hover { color: var(--teal) !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════════════════════ */
+.toast-enter { animation: toastIn  0.35s cubic-bezier(0.22,1,0.36,1) both; }
+.toast-exit  { animation: toastOut 0.3s  ease                         both; }
+
+/* Cart badge bounce */
+.badge-bounce { animation: badgeBounce 0.4s cubic-bezier(0.22,1,0.36,1); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SMOOTH FOCUS
+═══════════════════════════════════════════════════════════════════════════ */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(14,123,140,0.25) !important;
+  border-color: var(--teal) !important;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIZE / COLOUR SELECTOR (product page)
+═══════════════════════════════════════════════════════════════════════════ */
+.size-btn {
+  transition: transform 0.15s ease, border-color 0.15s ease,
+              background 0.15s ease, color 0.15s ease !important;
+}
+.size-btn:hover:not(.active) {
+  transform: scale(1.08) !important;
+  border-color: #fff !important;
+  color: #fff !important;
+}
+.size-btn.active { animation: scaleIn 0.2s ease; }
+
+.color-btn {
+  transition: transform 0.15s ease, border-color 0.15s ease !important;
+}
+.color-btn:hover  { transform: scale(1.08) !important; }
+.color-btn.active { border-color: var(--orange) !important; transform: scale(1.08) !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE OVERRIDES
+═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 980px) {
+  .hero-grid  { grid-template-columns: 1fr !important; }
+  .cats-grid  { grid-template-columns: 1fr 1fr !important; }
+  .prod-grid  { grid-template-columns: 1fr 1fr !important; }
+  .ed-grid    { grid-template-columns: 1fr !important; }
+  .foot-grid  { grid-template-columns: 1fr 1fr !important; }
+  .promo-grid { grid-template-columns: 1fr !important; }
+  .pdp-grid   { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 640px) {
+  .cats-grid    { grid-template-columns: 1fr !important; }
+  .prod-grid    { grid-template-columns: 1fr !important; }
+  .hero-section { padding: 32px 20px 40px !important; }
+  .section-pad  { padding: 48px 20px !important; }
+  .promo-strip  { margin: 0 20px !important; padding: 32px !important; }
+  .ed-section   { padding: 0 20px 48px !important; }
+  .footer-wrap  { padding: 40px 20px 24px !important; }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

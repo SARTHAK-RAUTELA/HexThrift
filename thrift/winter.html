@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chi's Thrift Store — Winter Armour</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ice:#A8C4D4;
+    --ice-dk:#7B9AAB;
+    --ice-dkr:#5A7A8C;
+    --teal:#0E7B8C;
+    --ink:#1a1f24;
+    --white:#fff;
+    --line:rgba(255,255,255,0.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;color:#fff;background:var(--ice);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+
+  /* Mountain backdrop */
+  .backdrop{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,#A8C4D4 0%,#7B9AAB 100%)}
+  .backdrop svg{width:100%;height:100%;filter:blur(6px) saturate(0.7);opacity:0.95}
+
+  .ann{background:rgba(0,0,0,0.6);color:#fff;padding:9px 24px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;text-align:center;backdrop-filter:blur(8px)}
+  .ann b{color:#FCC36A}
+
+  .header{padding:18px 36px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;background:rgba(168,196,212,0.5);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+  .nav{display:flex;gap:24px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:500}
+  .nav-r{justify-content:flex-end;display:flex;gap:18px;align-items:center;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:500}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:0.06em;text-align:center}
+
+  /* HERO panel */
+  .panel{margin:24px;background:rgba(168,196,212,0.45);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;overflow:hidden;position:relative}
+  .hero{padding:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:end;position:relative;min-height:560px}
+  .hero::after{content:"FRZN";position:absolute;right:-30px;top:80px;font-family:'Permanent Marker',cursive;font-size:200px;color:rgba(255,255,255,0.22);transform:rotate(-8deg);pointer-events:none;letter-spacing:-0.03em}
+  .crumbs{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;opacity:0.7;margin-bottom:20px}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,140px);line-height:0.86;letter-spacing:0.01em;text-shadow:0 4px 20px rgba(0,0,0,0.15)}
+  .hero h1 sup{font-size:0.25em;vertical-align:top;letter-spacing:0.1em;opacity:0.7}
+  .hero .specs{margin-top:24px;display:flex;flex-wrap:wrap;gap:24px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:500}
+  .hero .specs span{opacity:0.7}.hero .specs b{font-weight:600}
+  .hero .price{margin-top:32px;display:flex;align-items:center;gap:18px}
+  .hero .price .arrow{width:48px;height:48px;border-radius:50%;border:1px solid #fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .hero .price .arrow:hover{background:#fff;color:var(--ice-dkr)}
+  .hero .price .num{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.04em}
+  .hero .price small{display:block;font-family:'Inter';font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.7;margin-bottom:2px}
+  .hero-photo{position:relative;height:480px;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#bcd4dc,#6a8898);border:1px solid var(--line)}
+  .hero-photo svg{width:100%;height:100%}
+  .thumbs{position:absolute;right:40px;bottom:40px;display:flex;gap:10px;z-index:3}
+  .thumbs .t{width:64px;height:80px;border-radius:8px;border:1px solid var(--line);overflow:hidden;background:rgba(255,255,255,0.1)}
+  .thumbs .t.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,0.4)}
+  .thumbs .t svg{width:100%;height:100%}
+  .pgcount{position:absolute;right:40px;bottom:14px;font-size:10px;letter-spacing:0.2em;opacity:0.7;font-family:'Bebas Neue',sans-serif}
+
+  /* Section heading */
+  .secpanel{margin:0 24px 24px;background:rgba(168,196,212,0.45);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:40px}
+  .secpanel .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+  .secpanel h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,70px);line-height:1;letter-spacing:0.02em}
+  .secpanel .meta{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.75;line-height:1.8}
+  .secpanel .filter{display:inline-flex;gap:6px;padding:5px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,0.08)}
+  .secpanel .filter span{padding:7px 14px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;cursor:pointer;font-weight:500}
+  .secpanel .filter span.on{background:#fff;color:var(--ice-dkr)}
+
+  /* Featured card spanning 2 cols */
+  .gridA{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .featured{grid-column:span 2;grid-row:span 1;background:linear-gradient(160deg,#bcd4dc,#6a8898);border-radius:14px;border:1px solid var(--line);position:relative;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;min-height:280px}
+  .featured .ph{position:absolute;inset:0;z-index:0}
+  .featured .ph svg{width:100%;height:100%}
+  .featured > *{position:relative;z-index:1}
+  .featured .name{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1;letter-spacing:0.04em}
+  .featured .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+  .featured .swl{display:flex;gap:6px;margin-top:6px}
+  .featured .swl i{width:10px;height:10px;border-radius:50%;border:1px solid #fff;display:inline-block}
+  .featured .buy{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.95);color:var(--ink);padding:8px 14px;border-radius:999px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600}
+  .featured .price{font-family:'Bebas Neue',sans-serif;font-size:22px}
+  .featured .ttag{position:absolute;top:14px;right:14px;background:#fff;color:var(--ink);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;padding:4px 8px;border-radius:999px;z-index:2}
+
+  /* Product cards */
+  .pcard{background:rgba(255,255,255,0.08);border:1px solid var(--line);border-radius:14px;overflow:hidden;padding:14px}
+  .pcard .ph{aspect-ratio:1;border-radius:8px;overflow:hidden;background:linear-gradient(160deg,#bcd4dc,#6a8898);position:relative;margin-bottom:12px}
+  .pcard .ph svg{width:100%;height:100%}
+  .pcard .ph .pt{position:absolute;top:8px;left:8px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:0.18em;background:#fff;color:var(--ink);padding:3px 7px;border-radius:4px}
+  .pcard .nm{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:0.08em;line-height:1.1}
+  .pcard .ct{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;opacity:0.7;margin-top:4px}
+  .pcard .pr{margin-top:6px;font-family:'Bebas Neue',sans-serif;font-size:14px}
+  .pcard .sw{display:inline-flex;gap:5px;margin-top:6px;vertical-align:middle}
+  .pcard .sw i{width:8px;height:8px;border-radius:50%;border:1px solid #fff;display:inline-block}
+
+  /* GRID B — 5 col */
+  .gridB{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:14px}
+
+  /* OUTRO panel — graffiti + mountain visible behind */
+  .outro{margin:0 24px 24px;border-radius:24px;border:1px solid var(--line);overflow:hidden;position:relative;min-height:400px;display:flex;flex-direction:column;justify-content:flex-end;padding:48px}
+  .outro::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(168,196,212,0.2),rgba(58,80,96,0.7));z-index:1}
+  .outro .mt{position:absolute;inset:0;z-index:0}
+  .outro .graf{position:absolute;left:50%;top:30px;transform:translateX(-50%);font-family:'Permanent Marker',cursive;font-size:160px;color:#fff;opacity:0.28;letter-spacing:-0.03em;white-space:nowrap;pointer-events:none;z-index:2}
+  .outro h3{position:relative;z-index:3;font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,84px);line-height:0.95;letter-spacing:0.04em;max-width:600px}
+  .outro .meta-row{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.85;flex-wrap:wrap;gap:16px}
+  .outro .barcode{font-family:'Bebas Neue',sans-serif;letter-spacing:0.4em;font-size:14px}
+
+  .footer{margin:0 24px 24px;background:rgba(0,0,0,0.4);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:24px;padding:36px 40px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px;font-size:13px}
+  .footer h5{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:0.18em;margin-bottom:12px;color:#fff}
+  .footer ul{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:12px;opacity:0.85}
+  .footer .lg{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.06em}
+  .footer .lg i{color:#FCC36A;font-style:normal}
+  .footer p{font-size:12px;opacity:0.8;line-height:1.6;max-width:280px;margin-top:8px}
+  .ftbot{margin:0 24px 24px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:0.7;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:0 16px}
+
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr}
+    .gridA{grid-template-columns:1fr 1fr}
+    .gridB{grid-template-columns:1fr 1fr 1fr}
+    .footer{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- Backdrop mountains -->
+<div class="backdrop">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#bcd4dc"/><stop offset="1" stop-color="#7B9AAB"/></linearGradient>
+      <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.85"/><stop offset="1" stop-color="#5A7A8C"/></linearGradient>
+      <linearGradient id="m2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#dbe8ed"/><stop offset="1" stop-color="#3a5060"/></linearGradient>
+    </defs>
+    <rect width="1600" height="900" fill="url(#sky)"/>
+    <path d="M0 720 L120 540 L240 660 L380 380 L520 600 L680 460 L820 620 L960 420 L1120 580 L1260 480 L1420 600 L1600 500 L1600 900 L0 900 Z" fill="url(#m2)" opacity="0.7"/>
+    <path d="M0 780 L100 640 L220 720 L340 540 L480 700 L620 580 L780 700 L920 560 L1080 700 L1220 600 L1380 720 L1600 640 L1600 900 L0 900 Z" fill="url(#m1)"/>
+    <path d="M340 540 L380 510 L420 540 M620 580 L660 555 L700 580 M920 560 L960 535 L1000 560" stroke="#fff" stroke-width="3" fill="none" opacity="0.6"/>
+  </svg>
+</div>
+
+<div class="ann">❄ COLLECTION ARCTIC 01 · DROP IS LIVE · FREE SHIPPING ABOVE <b>₹4,999</b> · CODE <b>FRZN10</b></div>
+
+<header class="header">
+  <nav class="nav"><a href="home.html">Home</a><a href="#">Catalog</a><a href="#">Puffers</a><a href="#">Boots</a><a href="#">Lookbook</a></nav>
+  <a href="index.html" class="logo">CHI'S<sup style="font-size:0.5em;opacity:0.6">★</sup></a>
+  <div class="nav-r"><a href="#">Search</a><a href="#">♡</a><a href="#">Bag · 3</a></div>
+</header>
+
+<!-- HERO panel -->
+<div class="panel">
+  <section class="hero">
+    <div>
+      <div class="crumbs">[ HOME · COLLECTIONS · WINTER ]</div>
+      <h1>COLLECTION<br/>ARCTIC 01<sup>™</sup></h1>
+      <div class="specs">
+        <span>SIZE</span><b>S &nbsp; M &nbsp; L &nbsp; XL</b>
+        <span>COLOUR</span><b>MATTE &nbsp; SILVER &nbsp; ICE</b>
+      </div>
+      <div class="price">
+        <a href="product.html" class="arrow">↗</a>
+        <div><small>ADD TO CART</small><div class="num">₹6,499</div></div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <svg viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice">
+        <defs><linearGradient id="hg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#bcd4dc"/><stop offset="1" stop-color="#5A7A8C"/></linearGradient></defs>
+        <rect width="500" height="600" fill="url(#hg)"/>
+        <ellipse cx="250" cy="180" rx="90" ry="100" fill="#fff" opacity="0.9"/>
+        <ellipse cx="250" cy="170" rx="65" ry="55" fill="#9eb6c2"/>
+        <rect x="220" y="155" width="60" height="20" fill="#1a1f24" rx="2"/>
+        <path d="M100 290 Q250 240 400 290 L420 600 L80 600 Z" fill="#dbe8ed"/>
+        <path d="M150 320 L350 320 L340 600 L160 600 Z" fill="#fff" opacity="0.6"/>
+      </svg>
+      <span class="pgcount">01 / 07</span>
+      <div class="thumbs">
+        <div class="t on"><svg viewBox="0 0 64 80"><rect width="64" height="80" fill="#bcd4dc"/><circle cx="32" cy="32" r="14" fill="#fff"/></svg></div>
+        <div class="t"><svg viewBox="0 0 64 80"><rect width="64" height="80" fill="#5A7A8C"/><circle cx="32" cy="32" r="14" fill="#dbe8ed"/></svg></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- NEW COLLECTION — featured + 5 col -->
+<div class="secpanel">
+  <div class="head">
+    <h2>NEW COLLECTION</h2>
+    <div class="meta">
+      [ NEW COLLECTION ]<br/>
+      [ DROP_01 ]<br/>
+      [ PUFFERS ]<br/>
+      <br/>
+      PUFFER JACKETS<br/>
+      METAL SECTOR<br/>
+      CLASS ARCTIC<br/>
+      EXTREME COLD LINE
+    </div>
+    <div class="filter"><span class="on">All</span><span>Puffers</span><span>Pants</span><span>Boots</span></div>
+  </div>
+
+  <div class="gridA">
+    <!-- Featured -->
+    <a href="product.html" class="featured">
+      <div class="ph">
+        <svg viewBox="0 0 600 320" preserveAspectRatio="xMidYMid slice">
+          <rect width="600" height="320" fill="#9eb6c2"/>
+          <ellipse cx="200" cy="120" rx="55" ry="60" fill="#dbe8ed"/>
+          <path d="M120 200 Q200 170 280 200 L290 320 L110 320 Z" fill="#fff"/>
+          <text x="320" y="180" font-family="Permanent Marker" font-size="60" fill="#fff" opacity="0.4">FRZN</text>
+        </svg>
+      </div>
+      <div class="ttag">★ Best</div>
+      <div>
+        <div class="name">AURORA<sup style="font-size:0.4em">™</sup></div>
+        <div class="swl"><i style="background:#fff"></i><i style="background:#dbe8ed"></i><i style="background:#7B9AAB"></i></div>
+      </div>
+      <div class="row">
+        <div class="price">₹7,999</div>
+        <span class="buy">Add to cart →</span>
+      </div>
+    </a>
+
+    <!-- 3 standard cards in row -->
+    <div class="pcard">
+      <div class="ph">
+        <span class="pt">NEW</span>
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#dbe8ed"/><ellipse cx="100" cy="60" rx="34" ry="38" fill="#fff"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#bcd4dc"/></svg>
+      </div>
+      <div class="nm">SILVER REFLECTIVE PUFFER</div>
+      <div class="ct">Puffer · Size M</div>
+      <div class="pr">₹6,299 <span class="sw"><i style="background:#dbe8ed"></i><i style="background:#7B9AAB"></i></span></div>
+    </div>
+    <div class="pcard">
+      <div class="ph">
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#9eb6c2"/><ellipse cx="100" cy="60" rx="34" ry="38" fill="#fff"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#dbe8ed"/></svg>
+      </div>
+      <div class="nm">DIRECT SILVER NON-GLOSS</div>
+      <div class="ct">Puffer · Size L</div>
+      <div class="pr">₹5,799 <span class="sw"><i style="background:#dbe8ed"></i></span></div>
+    </div>
+    <div class="pcard">
+      <div class="ph">
+        <span class="pt">−10%</span>
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#5A7A8C"/><ellipse cx="100" cy="60" rx="34" ry="38" fill="#3a5060"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#1a1f24"/></svg>
+      </div>
+      <div class="nm">STEALTH BLACK HEAVY</div>
+      <div class="ct">Puffer · Size XL</div>
+      <div class="pr">₹6,499 <span class="sw"><i style="background:#1a1f24"></i><i style="background:#fff"></i></span></div>
+    </div>
+  </div>
+
+  <!-- 5-col row -->
+  <div class="gridB">
+    <div class="pcard">
+      <div class="ph">
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#dbe8ed"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#fff"/><path d="M55 110 Q100 90 145 110 L150 200 L50 200 Z" fill="#9eb6c2"/></svg>
+      </div>
+      <div class="nm">GLACIER WHITE PUFFER</div>
+      <div class="ct">Grey · Size M</div>
+      <div class="pr">₹5,999</div>
+    </div>
+    <div class="pcard">
+      <div class="ph">
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#7B9AAB"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#dbe8ed"/><path d="M55 110 Q100 90 145 110 L150 200 L50 200 Z" fill="#bcd4dc"/></svg>
+      </div>
+      <div class="nm">POLAR GLOSS PUFFER</div>
+      <div class="ct">Blue · Size L</div>
+      <div class="pr">₹6,199</div>
+    </div>
+    <div class="pcard">
+      <div class="ph">
+        <span class="pt">RARE</span>
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#3a5060"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#5A7A8C"/><path d="M55 110 Q100 90 145 110 L150 200 L50 200 Z" fill="#1a1f24"/></svg>
+      </div>
+      <div class="nm">STEALTH NAVY HEAVY</div>
+      <div class="ct">Navy · Size M</div>
+      <div class="pr">₹6,899</div>
+    </div>
+    <div class="pcard">
+      <div class="ph">
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#5A7A8C"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#3a5060"/><path d="M55 110 Q100 90 145 110 L150 200 L50 200 Z" fill="#7B9AAB"/></svg>
+      </div>
+      <div class="nm">ICEFIELD BLUE TECH</div>
+      <div class="ct">Blue · Size L</div>
+      <div class="pr">₹6,599</div>
+    </div>
+    <div class="pcard">
+      <div class="ph">
+        <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#dbe8ed"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#fff"/><path d="M55 110 Q100 90 145 110 L150 200 L50 200 Z" fill="#fff"/></svg>
+      </div>
+      <div class="nm">POLAR WHITE SHELL</div>
+      <div class="ct">White · Size XL</div>
+      <div class="pr">₹7,299</div>
+    </div>
+  </div>
+</div>
+
+<!-- OUTRO -->
+<section class="outro">
+  <div class="mt">
+    <svg viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice">
+      <rect width="1600" height="500" fill="#5A7A8C"/>
+      <path d="M0 380 L200 220 L380 360 L520 200 L700 360 L860 240 L1040 380 L1200 280 L1380 380 L1600 320 L1600 500 L0 500 Z" fill="#3a5060"/>
+      <path d="M0 420 L180 320 L360 400 L520 300 L680 420 L860 340 L1040 440 L1200 360 L1380 440 L1600 400 L1600 500 L0 500 Z" fill="#1a1f24" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="graf">CHISWAY</div>
+  <h3>BUILT FOR COLD<br/>MADE FOR HEIGHT<br/>FORGED TO LAST</h3>
+  <div class="meta-row">
+    <span>FRZN WAS BORN IN THE MOUNTAINS — NOT AS A TREND, BUT AS A RESPONSE.<br/>FOR THOSE WHO CLIMB, NOT FOR THE CROWD.</span>
+    <span class="barcode">|||·|·||||·||·|·||||·| 0142 ·</span>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div>
+    <div class="lg">CHI'S<i>·</i></div>
+    <p>Chi's Thrift Store — Winter Armour edition. Curated heavyweight thrift and re-engineered insulation. Pan-India shipping in INR via Razorpay.</p>
+  </div>
+  <div><h5>SHOP</h5><ul><li><a href="home.html">Home</a></li><li><a href="black.html">Black</a></li><li><a href="retro.html">Retro</a></li><li><a href="#">Sale</a></li></ul></div>
+  <div><h5>HELP</h5><ul><li><a href="#">Sizing</a></li><li><a href="#">Returns</a></li><li><a href="#">Shipping</a></li></ul></div>
+  <div><h5>BRAND</h5><ul><li><a href="#">Story</a></li><li><a href="#">Sell to us</a></li><li><a href="#">Press</a></li></ul></div>
+</footer>
+<div class="ftbot">
+  <span>© 2026 CHI'S THRIFT STORE</span><span>INR · RAZORPAY · UPI · CARDS</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chi's Thrift Store — Astro Winter Armor II</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#1A1A1A;
+    --panel:#0f0f0f;
+    --line:#2a2a2a;
+    --orange:#E8593C;
+    --orange-d:#cf3b2c;
+    --mute:#7a7a7a;
+    --txt:#e8e4dc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 20% 10%, rgba(232,89,60,0.05), transparent 40%),
+                     radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03), transparent 50%);
+  }
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+
+  .ann{background:#000;color:#999;text-align:center;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:9px}
+  .ann b{color:var(--orange)}
+
+  .header{padding:18px 36px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;border-bottom:1px solid var(--line);background:rgba(15,15,15,0.7);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:0.06em;color:#fff}
+  .logo i{color:var(--orange);font-style:normal}
+  .nav{display:flex;gap:28px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#aaa;font-weight:500}
+  .nav a:hover{color:#fff}
+  .nav-r{display:flex;gap:18px;align-items:center;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#aaa;font-weight:500}
+  .icn{width:18px;height:18px;display:inline-block}
+
+  /* Outer container — dark panel */
+  .container{margin:24px;background:#0f0f0f;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+
+  /* Top product area */
+  .product{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:32px;padding:48px;position:relative}
+
+  /* Left meta */
+  .left .new{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:14px}
+  .left h1{font-family:'Bebas Neue',sans-serif;font-size:84px;line-height:0.88;letter-spacing:0.02em;color:#fff;text-transform:uppercase}
+  .left .price{margin-top:18px;font-family:'Bebas Neue',sans-serif;font-size:40px;color:#fff;letter-spacing:0.02em}
+  .left .price .old{font-family:'Inter';font-size:14px;color:var(--mute);text-decoration:line-through;font-weight:500;margin-left:10px;vertical-align:middle}
+
+  .left .desc-h{margin-top:32px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);font-weight:600;border-bottom:1px solid var(--line);padding-bottom:8px}
+  .left .desc{margin-top:12px;font-size:13px;line-height:1.65;color:#aaa;max-width:300px}
+
+  .left .acc{margin-top:24px;border-top:1px solid var(--line)}
+  .left .acc-it{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);font-weight:600}
+  .left .acc-it .ch{color:#666;font-size:12px}
+
+  /* Center product image */
+  .center{position:relative;display:flex;align-items:center;justify-content:center;min-height:560px}
+  .center .glow{position:absolute;width:90%;height:90%;background:radial-gradient(circle, rgba(232,89,60,0.12) 0%, transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%)}
+  .center .jacket{position:relative;width:100%;max-width:520px;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+  .center .jacket svg{width:100%;height:100%;filter:drop-shadow(0 30px 50px rgba(0,0,0,0.6))}
+  .center .badge{position:absolute;left:0;top:0;display:flex;flex-direction:column;gap:6px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#666}
+  .center .badge b{color:#fff;font-weight:600}
+  .center .corners{position:absolute;inset:0;pointer-events:none}
+  .center .corners span{position:absolute;width:20px;height:20px;border:1px solid #444}
+  .center .corners .tl{top:0;left:0;border-right:0;border-bottom:0}
+  .center .corners .tr{top:0;right:0;border-left:0;border-bottom:0}
+  .center .corners .bl{bottom:0;left:0;border-right:0;border-top:0}
+  .center .corners .br{bottom:0;right:0;border-left:0;border-top:0}
+  .center .caption{position:absolute;bottom:0;left:50%;transform:translateX(-50%);text-align:center;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#555}
+  .center .caption b{color:#aaa}
+
+  /* Right options */
+  .right .group{margin-bottom:28px}
+  .right h4{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);margin-bottom:14px;font-weight:600}
+  .sizes{display:flex;gap:8px}
+  .sizes .s{width:42px;height:42px;border-radius:50%;border:1px solid #2a2a2a;background:transparent;color:#aaa;font-family:'Inter';font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+  .sizes .s.on{background:var(--orange);border-color:var(--orange);color:#fff}
+  .sizes .s:hover:not(.on){border-color:#fff;color:#fff}
+  .right .guide{margin-top:14px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#888;border-bottom:1px solid #444;display:inline-block;padding-bottom:2px;font-weight:600}
+
+  .colors{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .colors .c{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1px solid #2a2a2a;cursor:pointer;background:#1a1a1a}
+  .colors .c.on{border-color:var(--orange)}
+  .colors .c svg{width:100%;height:100%}
+  .colors .c .lb{position:absolute;left:6px;bottom:5px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,0.5);padding:2px 6px;border-radius:3px}
+
+  .ctas{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+  .btn{padding:14px 24px;border-radius:999px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;border:1px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+  .btn-fav{background:transparent;border-color:#fff;color:#fff}
+  .btn-fav:hover{background:#fff;color:#000}
+  .btn-buy{background:var(--orange);color:#fff;border-color:var(--orange)}
+  .btn-buy:hover{background:var(--orange-d);border-color:var(--orange-d)}
+
+  /* 4-col features */
+  .features{border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .feat{padding:32px 28px;border-right:1px solid var(--line)}
+  .feat:last-child{border-right:0}
+  .feat h5{font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;font-weight:700}
+  .feat p{font-size:13px;color:#aaa;line-height:1.6}
+
+  /* Lower gallery */
+  .gallery-wrap{margin:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .gphoto{background:#0f0f0f;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .gphoto .ph{aspect-ratio:1;background:linear-gradient(160deg,#2a2520,#0a0a0a);position:relative}
+  .gphoto .ph svg{width:100%;height:100%}
+  .gphoto .body{padding:18px 22px 22px}
+  .gphoto h6{font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);font-weight:700}
+  .gphoto p{margin-top:8px;font-size:12px;color:#aaa;line-height:1.55}
+
+  /* Recently viewed strip */
+  .strip{margin:24px;background:#0f0f0f;border:1px solid var(--line);border-radius:16px;padding:32px}
+  .strip-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
+  .strip-head h3{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.04em;color:#fff}
+  .strip-head a{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);font-weight:600;border-bottom:1px solid var(--orange);padding-bottom:2px}
+  .strip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .scard{background:#1a1a1a;border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer}
+  .scard .ph{aspect-ratio:1;position:relative;background:linear-gradient(160deg,#2a2520,#0a0a0a)}
+  .scard .ph svg{width:100%;height:100%}
+  .scard .body{padding:14px 16px 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .scard .nm{font-size:13px;color:#fff;font-weight:500;line-height:1.3}
+  .scard .ct{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#666;margin-top:4px}
+  .scard .pr{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--orange);letter-spacing:0.02em}
+
+  .footer{margin:0 24px 24px;background:#0a0a0a;border:1px solid var(--line);border-radius:16px;padding:32px 36px;font-size:12px;color:#666;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;letter-spacing:0.16em;text-transform:uppercase}
+  .footer b{color:#fff}
+
+  @media (max-width:1080px){
+    .product{grid-template-columns:1fr}
+    .features{grid-template-columns:1fr 1fr}
+    .gallery-wrap, .strip-grid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="ann">FREE EXPRESS SHIPPING ABOVE ₹4,999 · USE <b>ASTRO15</b> FOR 15% OFF · 4 LEFT IN STOCK</div>
+
+<header class="header">
+  <a href="index.html" class="logo">CHI'S<i>·</i></a>
+  <nav class="nav" style="justify-content:center">
+    <a href="home.html">Home</a><a href="#">Products</a><a href="black.html">Category</a><a href="#">More</a>
+    <span style="opacity:0.3">|</span>
+    <a href="#">About us</a><a href="#">Contact</a>
+  </nav>
+  <div class="nav-r"><a href="#">⌕</a><a href="#">⌽</a><a href="#">◉</a></div>
+</header>
+
+<!-- Main product -->
+<div class="container">
+  <section class="product">
+    <div class="left">
+      <div class="new">★ NEW · DROP 04</div>
+      <h1>ASTRO<br/>WINTER<br/>ARMOR II</h1>
+      <div class="price">₹6,499 <span class="old">₹8,999</span></div>
+
+      <div class="desc-h">Description</div>
+      <p class="desc">Triple-layer reclaimed shell with re-engineered down fill from a salvaged 1998 Decathlon parka. Sealed seams, magnetic cuffs, and a hood that survives a Bombay monsoon. One previous owner, deep-steamed in Bangalore.</p>
+
+      <div class="acc">
+        <div class="acc-it">Sizing &amp; fit <span class="ch">+</span></div>
+        <div class="acc-it">Provenance &amp; condition <span class="ch">+</span></div>
+        <div class="acc-it">Care instructions <span class="ch">+</span></div>
+      </div>
+    </div>
+
+    <div class="center">
+      <div class="glow"></div>
+      <div class="badge"><span>SKU</span><b>CHI-AWA-024</b><span style="margin-top:8px">CONDITION</span><b>9.2 / 10</b></div>
+      <div class="corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+      <div class="jacket">
+        <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="jck" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5ede0"/><stop offset="1" stop-color="#a89d8c"/></linearGradient>
+            <linearGradient id="hood" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3a2a1a"/><stop offset="1" stop-color="#E8593C"/></linearGradient>
+          </defs>
+          <!-- hood -->
+          <ellipse cx="250" cy="120" rx="90" ry="90" fill="url(#jck)"/>
+          <ellipse cx="250" cy="125" rx="65" ry="60" fill="url(#hood)"/>
+          <!-- body -->
+          <path d="M120 200 Q250 170 380 200 L400 460 L100 460 Z" fill="url(#jck)"/>
+          <!-- sleeves -->
+          <path d="M70 220 L120 200 L130 380 L80 400 Z" fill="url(#jck)"/>
+          <path d="M430 220 L380 200 L370 380 L420 400 Z" fill="url(#jck)"/>
+          <!-- puff lines -->
+          <path d="M150 240 L350 240 M150 280 L350 280 M150 320 L350 320 M150 360 L350 360 M150 400 L350 400" stroke="#a89d8c" stroke-width="1.5" opacity="0.5" fill="none"/>
+          <!-- center zipper -->
+          <line x1="250" y1="200" x2="250" y2="460" stroke="#5a4a3a" stroke-width="2"/>
+          <!-- pocket badge -->
+          <rect x="290" y="280" width="60" height="50" fill="#E8593C" rx="4"/>
+          <circle cx="320" cy="305" r="10" fill="#fff" opacity="0.4"/>
+          <!-- left pocket -->
+          <rect x="160" y="320" width="50" height="40" fill="none" stroke="#a89d8c" stroke-width="1.2" rx="3"/>
+          <!-- chest patch circle -->
+          <circle cx="320" cy="230" r="14" fill="#E8593C"/>
+          <circle cx="320" cy="230" r="6" fill="#fff" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="caption"><b>EDITION 24 · ASTRO PROGRAM</b> &nbsp;·&nbsp; PHOTO ENGINEERED FOR CHI'S</div>
+    </div>
+
+    <div class="right">
+      <div class="group">
+        <h4>Size</h4>
+        <div class="sizes">
+          <button class="s">XS</button>
+          <button class="s on">S</button>
+          <button class="s">M</button>
+          <button class="s">L</button>
+          <button class="s">XL</button>
+        </div>
+        <a href="#" class="guide">Size guide →</a>
+      </div>
+
+      <div class="group">
+        <h4>Colour</h4>
+        <div class="colors">
+          <div class="c on">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#e8dcc4"/><circle cx="50" cy="50" r="20" fill="#a89d8c"/></svg>
+            <span class="lb">Bone</span>
+          </div>
+          <div class="c">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#cf3b2c"/><circle cx="50" cy="50" r="20" fill="#7a1c14"/></svg>
+            <span class="lb">Red</span>
+          </div>
+          <div class="c">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#1a1a1a"/><circle cx="50" cy="50" r="20" fill="#3a3a3a"/></svg>
+            <span class="lb">Black</span>
+          </div>
+          <div class="c">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#3a4a5a"/><circle cx="50" cy="50" r="20" fill="#1a2a3a"/></svg>
+            <span class="lb">Slate</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctas">
+        <button class="btn btn-fav">♡ &nbsp; Favourite</button>
+        <button class="btn btn-buy">Add to bag — ₹6,499</button>
+      </div>
+
+      <div style="margin-top:14px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#666;line-height:1.7">
+        ✓ Razorpay secure · UPI · Cards<br/>
+        ✓ Pan-India shipping in 4–6 days<br/>
+        ✓ 7-day fit-check returns
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-col features -->
+  <div class="features">
+    <div class="feat">
+      <h5>3X Breathable</h5>
+      <p>Triple-layer reclaimed membrane lets the jacket breathe even at full output. No condensation, no swamp.</p>
+    </div>
+    <div class="feat">
+      <h5>3 Areas Puffed</h5>
+      <p>Re-baffled at the chest, lower back, and forearms — concentrated warmth where the cold actually finds you.</p>
+    </div>
+    <div class="feat">
+      <h5>Insulation</h5>
+      <p>Salvaged 800-fill down rated to −15°C in the lab and tested at the foot of the Annapurna circuit.</p>
+    </div>
+    <div class="feat">
+      <h5>Graphics</h5>
+      <p>Hand-screened utility patches and a magnetic chest pocket original to the source garment. Nothing added that wasn't there.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 3-up gallery -->
+<div class="gallery-wrap">
+  <div class="gphoto">
+    <div class="ph">
+      <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="400" fill="#2a2520"/>
+        <ellipse cx="200" cy="200" rx="180" ry="160" fill="#a89d8c" opacity="0.4"/>
+        <path d="M60 240 Q200 180 340 240 L350 400 L50 400 Z" fill="#e8dcc4" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="body"><h6>3X Breathable</h6><p>Designed with a triple-layer membrane that provides breathability and beadability for warm exteriors.</p></div>
+  </div>
+  <div class="gphoto">
+    <div class="ph">
+      <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="400" fill="#1a1a1a"/>
+        <ellipse cx="200" cy="140" rx="60" ry="68" fill="#5a4a3a"/>
+        <path d="M80 220 Q200 180 320 220 L340 400 L60 400 Z" fill="#e8dcc4"/>
+        <circle cx="200" cy="130" r="40" fill="#3a2a1a"/>
+        <rect x="240" y="240" width="40" height="40" fill="#E8593C" rx="3"/>
+      </svg>
+    </div>
+    <div class="body"><h6>3 Areas Puffed</h6><p>The jacket is engineered with 3 quilted areas providing additional warmth and comfort, given you maximum even when temps drop.</p></div>
+  </div>
+  <div class="gphoto">
+    <div class="ph">
+      <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="400" fill="#2a2520"/>
+        <rect x="80" y="60" width="240" height="280" fill="#e8dcc4" rx="6"/>
+        <rect x="120" y="140" width="160" height="80" fill="#a89d8c" opacity="0.5"/>
+        <rect x="220" y="240" width="60" height="60" fill="#E8593C" rx="3"/>
+        <circle cx="250" cy="270" r="14" fill="#fff" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="body"><h6>Insulation</h6><p>Uses advanced ultra-light insulation maintained for thermal comfort up to ₋50°F. Engineered to outlast the season.</p></div>
+  </div>
+</div>
+
+<!-- Recently viewed -->
+<div class="strip">
+  <div class="strip-head">
+    <h3>YOU MIGHT ALSO LIKE.</h3>
+    <a href="winter.html">All winter →</a>
+  </div>
+  <div class="strip-grid">
+    <a href="#" class="scard">
+      <div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1a"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#5a4a3a"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#e8dcc4"/></svg></div>
+      <div class="body"><div><div class="nm">Stealth Black Heavy</div><div class="ct">Puffer · M</div></div><div class="pr">₹6,499</div></div>
+    </a>
+    <a href="#" class="scard">
+      <div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#dbe8ed"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#fff"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#bcd4dc"/></svg></div>
+      <div class="body"><div><div class="nm">Glacier White Puffer</div><div class="ct">Puffer · L</div></div><div class="pr">₹5,999</div></div>
+    </a>
+    <a href="#" class="scard">
+      <div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#3a2820"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#5a4a3a"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#cf3b2c"/></svg></div>
+      <div class="body"><div><div class="nm">Crimson Liner Vest</div><div class="ct">Vest · M</div></div><div class="pr">₹3,299</div></div>
+    </a>
+    <a href="#" class="scard">
+      <div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1a"/><ellipse cx="100" cy="60" rx="32" ry="36" fill="#3a3a3a"/><path d="M50 110 Q100 90 150 110 L155 200 L45 200 Z" fill="#0a0a0a"/></svg></div>
+      <div class="body"><div><div class="nm">Heavyweight Hoodie</div><div class="ct">Hoodie · XL</div></div><div class="pr">₹1,499</div></div>
+    </a>
+  </div>
+</div>
+
+<footer class="footer">
+  <span>© 2026 <b>CHI'S THRIFT STORE</b> · ALL RIGHTS RESERVED</span>
+  <span>INR · RAZORPAY · UPI · CARDS · NET BANKING</span>
+</footer>
+
+<script>
+  // simple size + colour toggles
+  document.querySelectorAll('.sizes .s').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.sizes .s').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  }));
+  document.querySelectorAll('.colors .c').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.colors .c').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  }));
+</script>
+
+</body>
+</html>

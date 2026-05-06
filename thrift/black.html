@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chi's Thrift Store — The Black Collection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --ink:#fff;
+    --red:#E8593C;
+    --red-2:#cf3b2c;
+    --grey:#1a1a1a;
+    --grey-2:#222;
+    --mute:#666;
+    --line:#262626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+
+  /* Top bar */
+  .top{background:#000;border-bottom:1px solid var(--line);padding:9px 32px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#888}
+  .top b{color:var(--red);font-weight:700}
+
+  /* Header */
+  .header{padding:20px 40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,10,0.92);backdrop-filter:blur(8px);z-index:50}
+  .nav{display:flex;gap:28px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:#bbb}
+  .nav a:hover{color:#fff}
+  .nav-r{justify-content:flex-end;display:flex;gap:24px;align-items:center;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:#bbb}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:0.04em;text-align:center}
+  .logo i{color:var(--red);font-style:normal}
+
+  /* Hero */
+  .hero{padding:24px 40px 0;position:relative}
+  .crumbs{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--mute);margin-bottom:32px}
+  .crumbs span{color:var(--red)}
+
+  .massive{
+    font-family:'Anton','Bebas Neue',sans-serif;
+    font-size:clamp(96px,18vw,260px);
+    line-height:0.82;letter-spacing:-0.02em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .massive .red{color:var(--red);font-style:italic;display:inline-block;transform:skewX(-6deg)}
+  .massive .out{
+    color:transparent;-webkit-text-stroke:2px #fff;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;margin-top:40px;align-items:end;padding-bottom:80px}
+  .hero-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid var(--line);padding-top:24px;margin-top:48px}
+  .hero-meta .lbl{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+  .hero-meta .val{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.02em}
+
+  .hero-photo{
+    position:relative;height:560px;border-radius:8px;overflow:hidden;
+    background:linear-gradient(180deg,#1a1a1a,#000);
+    filter:grayscale(1) contrast(1.1);
+  }
+  .hero-photo svg{width:100%;height:100%}
+  .hero-photo .corner{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:0.18em;color:#fff;opacity:0.7}
+  .hero-photo .c-tl{top:14px;left:16px}
+  .hero-photo .c-tr{top:14px;right:16px}
+  .hero-photo .c-bl{bottom:14px;left:16px}
+  .hero-photo .c-br{bottom:14px;right:16px}
+
+  /* Marquee */
+  .marquee{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:18px 0;overflow:hidden;background:#000;
+  }
+  .mtrack{display:flex;gap:48px;white-space:nowrap;animation:scroll 26s linear infinite;font-family:'Anton',sans-serif;font-size:30px;letter-spacing:0.06em;text-transform:uppercase}
+  .mtrack span{display:inline-flex;align-items:center;gap:48px}
+  .mtrack i{color:var(--red);font-style:normal}
+  .mtrack .star{color:var(--red);font-style:normal}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* Filter bar */
+  .filter{padding:32px 40px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+  .filter-l{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{padding:8px 16px;border:1px solid var(--line);border-radius:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#bbb;cursor:pointer;font-weight:500}
+  .chip.on{background:#fff;color:#000;border-color:#fff}
+  .chip:hover:not(.on){border-color:#fff;color:#fff}
+  .filter-r{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#888;display:flex;align-items:center;gap:24px}
+  .filter-r b{color:#fff}
+
+  /* Grid */
+  .grid{padding:40px 40px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+  .item{background:var(--bg);padding:24px;position:relative;cursor:pointer}
+  .item .ph{aspect-ratio:3/4;background:linear-gradient(180deg,#1f1f1f,#0a0a0a);position:relative;overflow:hidden;margin-bottom:18px;filter:grayscale(1) contrast(1.05)}
+  .item .ph svg{width:100%;height:100%}
+  .item .num{position:absolute;top:12px;left:12px;font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;mix-blend-mode:difference;letter-spacing:0.1em}
+  .item .tag{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 8px;font-weight:700}
+  .item .row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .item .name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:0.02em;line-height:1}
+  .item .cat{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+  .item .price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);line-height:1}
+  .item:hover .name{color:var(--red)}
+  .item .swatches{margin-top:10px;display:flex;gap:6px}
+  .item .swatches i{width:12px;height:12px;border-radius:50%;border:1px solid #333;display:inline-block}
+  .item .swatches i:nth-child(1){background:#000}
+  .item .swatches i:nth-child(2){background:#fff}
+  .item .swatches i:nth-child(3){background:var(--red)}
+
+  /* Editorial banner */
+  .edit{padding:120px 40px;text-align:center;border-top:1px solid var(--line);position:relative;overflow:hidden}
+  .edit .quote{font-family:'Anton',sans-serif;font-size:clamp(48px,8vw,124px);line-height:0.95;letter-spacing:-0.01em;text-transform:uppercase;max-width:1100px;margin:0 auto}
+  .edit .quote em{font-style:italic;color:var(--red);transform:skewX(-6deg);display:inline-block}
+  .edit .credit{margin-top:32px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mute)}
+  .edit::before{content:"BLK";position:absolute;left:-30px;top:50%;transform:translateY(-50%) rotate(-90deg);font-family:'Anton',sans-serif;font-size:140px;color:#0f0f0f;letter-spacing:0.08em}
+  .edit::after{content:"01";position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Anton',sans-serif;font-size:200px;color:#0f0f0f}
+
+  /* Lower row + footer */
+  .lower{padding:60px 40px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .lower h5{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.18em;color:#fff;margin-bottom:14px}
+  .lower a{display:block;font-size:13px;color:#888;padding:4px 0}
+  .lower a:hover{color:#fff}
+  .footer{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#666}
+
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr 1fr}
+    .lower{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <span>♦ THE BLACK COLLECTION · DROP 04</span>
+  <span>FREE SHIPPING ABOVE ₹2,499 · USE <b>BLK10</b></span>
+  <span>SHIPPING WORLDWIDE FROM 06.05.26</span>
+</div>
+
+<header class="header">
+  <nav class="nav">
+    <a href="#">Drops</a><a href="#">Lookbook</a><a href="#">Archive</a><a href="#">Sell to us</a>
+  </nav>
+  <a href="index.html" class="logo">CHI'S<i>·</i></a>
+  <div class="nav-r">
+    <a href="home.html">Back to home</a>
+    <a href="#">Search</a>
+    <a href="#">Bag (3)</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="crumbs">Home <span>·</span> Collections <span>·</span> Black</div>
+  <h1 class="massive">
+    THE BLACK<br/>
+    <span class="out">COLLECTION</span><br/>
+    <span class="red">— BLK.</span>
+  </h1>
+
+  <div class="hero-grid">
+    <div>
+      <p style="max-width:520px;color:#aaa;line-height:1.6;font-size:15px">142 hand-picked black-on-black thrift pieces from the streets of Bangalore, Bombay and Delhi. Sorted, steamed, photographed in monochrome — because the only thing that matters is the silhouette.</p>
+      <div class="hero-meta">
+        <div><div class="lbl">Pieces</div><div class="val">142</div></div>
+        <div><div class="lbl">Drops</div><div class="val">04</div></div>
+        <div><div class="lbl">Avg. price</div><div class="val">₹1,240</div></div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <span class="corner c-tl">N° 04</span>
+      <span class="corner c-tr">35.MM</span>
+      <span class="corner c-bl">BLK / SS26</span>
+      <span class="corner c-br">+ ISO 400</span>
+      <svg viewBox="0 0 500 700" preserveAspectRatio="xMidYMid slice">
+        <rect width="500" height="700" fill="#0d0d0d"/>
+        <ellipse cx="250" cy="180" rx="80" ry="92" fill="#3a3a3a"/>
+        <path d="M120 280 Q250 230 380 280 L400 700 L100 700 Z" fill="#1a1a1a"/>
+        <path d="M180 320 L320 320 L310 480 L190 480 Z" fill="#0a0a0a" stroke="#2a2a2a"/>
+        <rect x="240" y="340" width="20" height="120" fill="#2a2a2a"/>
+        <circle cx="250" cy="170" r="40" fill="#1f1f1f"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="mtrack">
+    <span>BLACK ON BLACK <i>★</i> NEVER GOES OUT <i>★</i> NEVER GOES IN <i>★</i> BLACK ON BLACK <i>★</i> NEVER GOES OUT <i>★</i> NEVER GOES IN <i>★</i></span>
+    <span>BLACK ON BLACK <i>★</i> NEVER GOES OUT <i>★</i> NEVER GOES IN <i>★</i> BLACK ON BLACK <i>★</i> NEVER GOES OUT <i>★</i> NEVER GOES IN <i>★</i></span>
+  </div>
+</div>
+
+<!-- Filter -->
+<div class="filter">
+  <div class="filter-l">
+    <span class="chip on">All — 142</span>
+    <span class="chip">Hoodies</span>
+    <span class="chip">Tees</span>
+    <span class="chip">Outerwear</span>
+    <span class="chip">Pants</span>
+    <span class="chip">Boots</span>
+    <span class="chip">Accessories</span>
+  </div>
+  <div class="filter-r">
+    <span>Sort: <b>Newest first</b> ↓</span>
+    <span>View: <b>Grid</b></span>
+  </div>
+</div>
+
+<!-- Grid -->
+<section class="grid">
+  <!-- 9 items -->
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">001</span><span class="tag">NEW</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#161616"/><path d="M70 130 Q150 100 230 130 L240 380 L60 380 Z" fill="#0a0a0a"/><rect x="105" y="160" width="90" height="60" fill="#1a1a1a"/><circle cx="150" cy="80" r="35" fill="#2a2a2a"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Heavyweight Hoodie</div><div class="cat">Champion · Size XL</div><div class="swatches"><i></i><i></i><i></i></div></div><div class="price">₹1,499</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">002</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#1a1a1a"/><circle cx="150" cy="100" r="40" fill="#3a3a3a"/><path d="M80 170 Q150 140 220 170 L230 380 L70 380 Z" fill="#0a0a0a"/><rect x="120" y="180" width="60" height="180" fill="#1f1f1f"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Boxy Tee — Wash 03</div><div class="cat">Vintage · Size L</div><div class="swatches"><i></i><i></i></div></div><div class="price">₹699</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">003</span><span class="tag">SOLD 1</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#0d0d0d"/><ellipse cx="150" cy="110" rx="50" ry="55" fill="#2a2a2a"/><path d="M80 200 Q150 170 220 200 L230 380 L70 380 Z" fill="#1a1a1a"/><path d="M120 220 L180 220 L170 320 L130 320 Z" fill="#000"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Padded Bomber Jacket</div><div class="cat">Outerwear · Size M</div><div class="swatches"><i></i><i></i><i></i></div></div><div class="price">₹2,299</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">004</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#141414"/><path d="M100 80 L200 80 L210 380 L90 380 Z" fill="#1f1f1f"/><rect x="130" y="160" width="40" height="120" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Cargo Pant — Loose Fit</div><div class="cat">Bottoms · 32W</div><div class="swatches"><i></i><i></i></div></div><div class="price">₹1,199</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">005</span><span class="tag">RARE</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#181818"/><circle cx="150" cy="120" r="55" fill="#2a2a2a"/><path d="M70 220 Q150 190 230 220 L240 380 L60 380 Z" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Leather Moto Jacket</div><div class="cat">Outerwear · Size S</div><div class="swatches"><i></i></div></div><div class="price">₹3,499</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">006</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#0f0f0f"/><path d="M90 100 L210 100 L220 380 L80 380 Z" fill="#1a1a1a"/><circle cx="150" cy="180" r="22" fill="#E8593C"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Graphic Tee — Red Dot</div><div class="cat">Vintage · Size M</div><div class="swatches"><i></i><i></i><i></i></div></div><div class="price">₹599</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">007</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#161616"/><ellipse cx="150" cy="100" rx="45" ry="50" fill="#2a2a2a"/><path d="M90 180 Q150 150 210 180 L220 380 L80 380 Z" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Hooded Trench</div><div class="cat">Outerwear · Size L</div><div class="swatches"><i></i><i></i></div></div><div class="price">₹2,799</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">008</span><span class="tag">−15%</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#181818"/><rect x="100" y="100" width="100" height="180" fill="#2a2a2a"/><rect x="120" y="280" width="60" height="100" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Denim Jacket — Black Wash</div><div class="cat">Levi's · Size L</div><div class="swatches"><i></i></div></div><div class="price">₹1,699</div></div>
+  </a>
+  <a class="item" href="product.html">
+    <div class="ph">
+      <span class="num">009</span>
+      <svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#0d0d0d"/><path d="M110 80 L190 80 L200 380 L100 380 Z" fill="#1f1f1f"/><rect x="135" y="180" width="30" height="80" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="row"><div><div class="name">Knit Crewneck</div><div class="cat">Knitwear · Size M</div><div class="swatches"><i></i><i></i></div></div><div class="price">₹949</div></div>
+  </a>
+</section>
+
+<!-- Editorial -->
+<section class="edit">
+  <div class="quote">"BLACK ISN'T A COLOUR — <em>IT'S A POSITION.</em>"</div>
+  <div class="credit">— Lookbook 04 · Photography Sahil M. · Styling Chi A.</div>
+</section>
+
+<!-- Lower -->
+<section class="lower">
+  <div><h5>SHOP</h5><a href="home.html">Home</a><a href="winter.html">Winter</a><a href="retro.html">Retro</a><a href="#">Sale</a></div>
+  <div><h5>HELP</h5><a href="#">Sizing</a><a href="#">Returns</a><a href="#">Shipping</a><a href="#">FAQ</a></div>
+  <div><h5>BRAND</h5><a href="#">Story</a><a href="#">Sustainability</a><a href="#">Press</a></div>
+  <div><h5>FOLLOW</h5><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Newsletter</a></div>
+</section>
+<div class="footer">
+  <span>© 2026 CHI'S THRIFT STORE</span>
+  <span>INR · RAZORPAY · UPI · CARDS</span>
+</div>
+
+</body>
+</html>

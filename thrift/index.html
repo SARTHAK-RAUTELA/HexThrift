@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chi's Thrift Store — Pages</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Paytone+One&family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --teal:#0E7B8C;
+    --yellow:#F5C518;
+    --cream:#F6F1E4;
+    --ink:#111;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    min-height:100vh;
+    padding:64px 48px 96px;
+  }
+  .wrap{max-width:1200px;margin:0 auto}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--teal);font-weight:600;
+    background:#fff;padding:6px 12px;border-radius:999px;
+    border:1px solid rgba(14,123,140,0.2);
+  }
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--yellow)}
+  h1{
+    font-family:'Paytone One',sans-serif;
+    font-size:clamp(44px,7vw,84px);
+    line-height:0.95;letter-spacing:-0.01em;margin:18px 0 12px;
+    color:var(--teal);
+  }
+  .lead{font-size:18px;color:#444;max-width:640px;margin-bottom:48px;line-height:1.55}
+  .lead strong{color:var(--ink)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .card{
+    position:relative;display:block;text-decoration:none;color:inherit;
+    background:#fff;border-radius:16px;overflow:hidden;
+    border:1px solid rgba(0,0,0,0.06);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,0.08)}
+  .thumb{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .thumb .label{
+    font-family:'Bebas Neue',sans-serif;font-size:46px;letter-spacing:0.02em;
+    color:#fff;text-align:center;line-height:1;
+  }
+  .body{padding:18px 20px 22px}
+  .num{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:0.18em;color:#888}
+  .ttl{font-family:'Inter',sans-serif;font-weight:700;font-size:20px;margin-top:4px}
+  .desc{font-size:13px;color:#666;margin-top:6px;line-height:1.5}
+
+  /* thumb variants */
+  .t-home{background:linear-gradient(135deg,#F6F1E4 0%,#FCE38A 100%)}
+  .t-home .label{color:var(--ink)}
+  .t-home::after{content:"";position:absolute;inset:auto -20% -40% auto;width:60%;height:120%;background:var(--yellow);border-radius:50%;opacity:.45}
+  .t-black{background:#0a0a0a}
+  .t-black .label{color:#fff;font-size:64px}
+  .t-black .label span{color:#E8593C}
+  .t-other{background:linear-gradient(135deg,#0E7B8C 0%,#F08A6E 50%,#F5C9D6 100%)}
+  .t-other .label{font-family:'Paytone One',sans-serif;font-size:38px;color:#fff}
+  .t-winter{background:linear-gradient(180deg,#A8C4D4 0%,#7B9AAB 100%)}
+  .t-winter::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.25) 50%,transparent 70%);
+    clip-path:polygon(0 60%,20% 35%,40% 55%,60% 30%,80% 50%,100% 35%,100% 100%,0 100%);
+  }
+  .t-winter .label{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+  .t-product{background:#1A1A1A;display:flex;align-items:center;justify-content:center}
+  .t-product::after{
+    content:"";width:140px;height:140px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #fff 0%, #ccc 30%, #333 80%);
+    box-shadow:0 0 60px rgba(232,89,60,0.35);
+  }
+  .t-product .label{position:absolute;bottom:14px;right:18px;font-size:18px;color:#E8593C;letter-spacing:0.15em}
+
+  .footer{margin-top:80px;padding-top:32px;border-top:1px solid rgba(0,0,0,0.08);font-size:13px;color:#666;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .stack{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{padding:5px 10px;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:999px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#555}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">Chi's Thrift Store · Brand & Site Design</span>
+  <h1>Five themes,<br/>one wardrobe.</h1>
+  <p class="lead">A full e-commerce design exploration for <strong>Chi's Thrift Store</strong> — sustainable thrift clothing across five distinct collection moods. Each page lives on its own visual world while sharing the same brand spine: <strong style="color:var(--teal)">Teal</strong> + <strong style="color:#caa00f">Yellow</strong>, Inter for body, Bebas Neue + Paytone One for display.</p>
+
+  <div class="grid">
+    <a class="card" href="home.html">
+      <div class="thumb t-home"><div class="label">CHI'S</div></div>
+      <div class="body">
+        <div class="num">01 · HOMEPAGE</div>
+        <div class="ttl">Cream &amp; Yellow Storefront</div>
+        <div class="desc">Bold all-caps headlines, 3-col category grid, announcement bar, flat product row.</div>
+      </div>
+    </a>
+    <a class="card" href="black.html">
+      <div class="thumb t-black"><div class="label">BLK<span>.</span></div></div>
+      <div class="body">
+        <div class="num">02 · BLACK COLLECTION</div>
+        <div class="ttl">Streetwear, Oversized Type</div>
+        <div class="desc">Pure black, 120px+ headlines, B&amp;W photography, red accents.</div>
+      </div>
+    </a>
+    <a class="card" href="retro.html">
+      <div class="thumb t-other"><div class="label">RETRO MIX</div></div>
+      <div class="body">
+        <div class="num">03 · OTHER COLLECTIONS</div>
+        <div class="ttl">Colorful Retro, Bubbly</div>
+        <div class="desc">Alternating teal, coral, cream, pink, yellow sections. Pill-shaped buttons.</div>
+      </div>
+    </a>
+    <a class="card" href="winter.html">
+      <div class="thumb t-winter"><div class="label">WINTER</div></div>
+      <div class="body">
+        <div class="num">04 · WINTER COLLECTION</div>
+        <div class="ttl">Icy Blue, Graffiti, Mountains</div>
+        <div class="desc">5-col product grid over a blurred mountain backdrop with graffiti overlay.</div>
+      </div>
+    </a>
+    <a class="card" href="product.html">
+      <div class="thumb t-product"><div class="label">PDP</div></div>
+      <div class="body">
+        <div class="num">05 · PRODUCT DETAIL</div>
+        <div class="ttl">Charcoal &amp; Orange CTA</div>
+        <div class="desc">Centered product, size + color selectors, 4-col feature highlights.</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="footer">
+    <div>Chi's Thrift Store — sustainable thrift clothing, INR via Razorpay.</div>
+    <div class="stack">
+      <span class="chip">Next.js</span>
+      <span class="chip">Tailwind</span>
+      <span class="chip">Supabase</span>
+      <span class="chip">Razorpay</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
